@@ -1,0 +1,106 @@
+<!-- 四川省のhtml -->
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>四川省</title>
+</head>
+<body>
+    <div id="hamburgerMenu">
+        <!-- ボタンをクリックでメニュー開く、もう一度クリックで閉じる -->
+        <button id="hamburger" onclick="c=this.classList;c.contains('Active')?c.remove('Active'):c.add('Active');">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+        <div class="Menus">
+            <div class="Border"></div>
+            <div class="Choice" onclick="clickHelp()">
+                <div class="Help"></div>
+                <p>Help</p>
+            </div>
+            <div class="Border"></div>
+            <div class="Choice" onclick="clickHamburgerMenu(1)">
+                <img src="img/Restart.png" class="Restart"></img>
+                <p>Restart</p>
+            </div>
+            <div class="Border"></div>
+            <div class="Choice" onclick="clickHamburgerMenu(2)">
+                <img src="img/To_Home.png" class="ToHome"></img>
+                <p>To home</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen1" class="Screen Active"> <!-- 画面遷移 クラスにActiveを追加すると前面へ -->
+        <!-- タイトル・難易度選択 -->
+        <p class="Title">四川省</p>
+        <div class="UI Level">
+            <div id="easy" class="Choice" onclick="selectEasy(this)">
+                <p>easy</p>
+                <p class="Supplement">使用牌：筒子、索子</p>
+            </div>
+            <div id="normal" class="Choice" onclick="selectNormal(this)">
+                <p>normal</p>
+                <p class="Supplement">使用牌：筒子、索子、萬子、字牌</p>
+            </div>
+            <div id="hard" class="Choice" onclick="selectHard(this)">
+                <p>hard</p>
+                <p class="Supplement">使用牌：筒子、索子、萬子、字牌、花牌</p>
+            </div>
+        </div>
+        <div id="start" class="UI" onclick="clickStart()">
+            <p>Start</p>
+        </div>
+        <!-- クリア・リザルト -->
+        <!-- <p class="Title ZoomOut1">Congratulations!</p>
+        <p class="ZoomOut2">Clear time:N/A</p>
+        <div id="start" class="UI" onclick="clickRestart()">
+            <p>Restart</p>
+        </div> -->
+        <!-- 確認画面 -->
+        <!-- <p style="font-size: calc(var(--base-size) * 6);">本当にリスタートしますか？</p>
+        <br>
+        <div class="UI">
+            <div class="Choice" onclick=""><p>
+                はい
+            </p></div>
+            <div class="Choice" onclick=""><p>
+                いいえ
+            </p></div>
+        </div> -->
+        <!-- ヘルプメニュー -->
+        <!-- <div class="UI">
+            <p>
+                四川省について
+            </p>
+            <p>
+                四川省は他の牌を跨がずに、直線を二度以内まで曲げた線で結べる牌同士を消していき、全ての牌を消すゲームです。
+            </p>
+        </div>
+        <br> 
+        <div class="UI">
+            <p>
+                ハンバーガーメニューについて
+            </p>
+            <p>
+                ハンバーガーメニューは、上下にスワイプすることにより移動することができます。
+            </p>
+        </div> -->
+    </div>
+    <div id="screen2" class="Screen" onclick="backFromHelp()"> <!-- 確認の画面遷移 クラスにActiveを追加すると前面へ -->
+    </div>
+    <div id="screen3" class="Screen"> <!-- 確認の画面遷移 クラスにActiveを追加すると前面へ -->
+    </div>
+
+    <div class="Background">
+        <div id="gameArea" style="--group-count: 12; --line-count: 14;" class=""> <!-- Ver:縦並び styleのgroup-countにグループの数、line-countにグループの中の数を入れること 8*9, 8*17, 12*14 -->
+        </div>
+    </div>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

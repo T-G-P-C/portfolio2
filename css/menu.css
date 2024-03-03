@@ -1,0 +1,345 @@
+/* ハンバーガーメニューと簡易的な画面遷移の汎用css */
+/*
+    <div id="hamburgerMenu">
+        <!-- ボタンをクリックでメニュー開く、もう一度クリックで閉じる -->
+        <button id="hamburger" onclick="c=this.classList;c.contains('Active')?c.remove('Active'):c.add('Active');">
+            <div></div>
+            <div></div>
+            <div></div>
+        </button>
+        <div class="Menus">
+            <div class="Border"></div>
+            <div class="Choice">
+                <div class="Help" onclick="clickHelp()"></div>
+                <p>Help</p>
+            </div>
+            <div class="Border"></div>
+            <div class="Choice" onclick="clickHamburgerMenu(1)">
+                <img src="img/Restart.png" class="Restart"></img>
+                <p>Restart</p>
+            </div>
+            <div class="Border"></div>
+            <div class="Choice" onclick="clickHamburgerMenu(2)">
+                <img src="img/To_Home.png" class="ToHome"></img>
+                <p>To home</p>
+            </div>
+        </div>
+    </div>
+*/
+/*
+    <div id="screen" class="Screen Active"> <!-- 画面遷移 クラスにActiveを追加すると前面へ -->
+        <!-- タイトル・難易度選択 -->
+        <p class="Title">title</p>
+        <div class="UI Level">
+            <div id="choice1" class="Choice" onclick="">
+                <p>choice1</p>
+                <p class="Supplement">選択肢1</p>
+            </div>
+            <div id="choice2" class="Choice" onclick="">
+                <p>choice2</p>
+                <p class="Supplement">選択肢2</p>
+            </div>
+            <div id="choice3" class="Choice" onclick="">
+                <p>choice3</p>
+                <p class="Supplement">選択肢3</p>
+            </div>
+        </div>
+        <div id="start" class="UI" onclick="">
+            <p>Start</p>
+        </div>
+    </div>
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap');
+
+html {
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+* { /* 全てのmarginの初期値を0にする */
+    margin: 0;
+}
+
+#hamburgerMenu { /* ハンバーガーメニュー全体 */
+    display: flex;
+    flex-flow: column;
+    --menu-color: rgba(105, 105, 105, 0.9);
+    --base-size: max(1vmin,8px);
+    width: 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 11;
+    &&>#hamburger { /* ボタン部分 */
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-evenly;
+        align-items: center;
+        gap: 10%;
+        width: calc(var(--base-size) * 10);
+        height: calc(var(--base-size) * 10);
+        background-color: var(--menu-color);
+        /* background: linear-gradient(to left, red 50%, blue 50%); */
+        border: none;
+        transition: padding 0.2s 0s ease, width 0.2s 0s ease;
+        &&::after { /* アイコンの下の文字 */
+            content: "Menu";
+            color: white;
+            font-size: calc(var(--base-size) * 1.8);
+            font-weight: bold;
+        }
+    }
+
+    &&>.Menus { /* 内容部分 */
+        cursor: pointer;
+        display: flex;
+        flex-flow: column;
+        position: relative;
+        left: calc(var(--base-size) * -10);
+        font-size: calc(var(--base-size) * 1.8);
+        font-weight: bold;
+        color: white;
+        transition: left 1s 0s ease;
+        &&>.Border { /* メニューを区切る横線 */
+            width: calc(var(--base-size) * 10);
+            height: calc(var(--base-size) * 0.2);
+            background-color: white;
+        }
+        &&>.Choice { /* メニュー内の選択肢 */
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10%;
+            width: calc(var(--base-size) * 10);
+            height: calc(var(--base-size) * 10);
+            transition: padding 0.2s 0s ease;
+            width: calc(var(--base-size) * 10);
+            background-color: var(--menu-color);
+            &&>.Help {  /* ヘルプ(どのゲームでも必要なため) */
+                width: calc(var(--base-size) * 6);
+                height: calc(var(--base-size) * 6);
+                transition: transform 0.5s 0s ease;
+                &&::before {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: calc(var(--base-size) * 6);
+                    height: calc(var(--base-size) * 6);
+                    background-image: url(../img/Help.png);
+                    background-size: calc(var(--base-size) * 6);
+                }
+                &&::after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    width: calc(var(--base-size) * 6);
+                    height: calc(var(--base-size) * 6);
+                }
+            }
+            &&>.Restart { /* ゲームのリスタート(どのゲームでも必要なため) */
+                transition: transform 1s 0s ease;
+                width: calc(var(--base-size) * 6);
+                height: calc(var(--base-size) * 6);
+            }
+            &&>.ToHome { /* ホーム画面への移動(どのゲームでも必要なため) */
+                padding-top: calc(var(--base-size) * 0.5);
+                width: calc(var(--base-size) * 5.5);
+                height: calc(var(--base-size) * 5.5);
+            }
+        }
+    }
+    &&>#hamburger>div { /* 点、または棒 */
+        background-color: white;
+        width: var(--base-size);
+        height: var(--base-size);
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgba(0,0,0,0); /* これがないと変形時に跡が残る */
+        transition: all 1s 0s ease;
+    }
+
+    &&>#hamburger.Active{ /* クリック時の挙動 */
+        && ~ .Menus { /* 文字が左から出てくる */
+            left: 0;
+        }
+        &&>*{ /* 共通した棒の動き */
+            width: calc(var(--base-size) * 6);
+            border-radius: 15% / 50%;
+            border-width: 0;
+        }
+        &&>:nth-child(1){ /* 上 */
+            margin-left: calc(var(--base-size) * 2.6);
+            transform-origin: 0% -20%;
+            transform: rotateZ(45deg);
+        }
+        &&>:nth-child(2){ /* 中 */
+            opacity: 0;
+        }
+        &&>:nth-child(3){ /* 下 */
+            margin-left: calc(var(--base-size) * 2.6);
+            transform-origin: 0% 120%;
+            transform: rotateZ(-45deg);
+        }
+        &&::after { /* MenuをCloseに */
+            content: "Close";
+        }
+    }
+    &&.Reverse { /* 上下逆にする処理 */
+        top: none;
+        bottom: 0;
+        flex-flow: column-reverse;
+        &&>.Menus {
+            flex-flow: column-reverse;
+        }
+    }
+}
+@media (hover:hover) { /* ホバーができる端末のみ適応 */ 
+    #hamburgerMenu {
+        &&>#hamburger:hover{
+            &&.Active {
+                width: calc(var(--base-size) * 12);
+                padding-left: calc(var(--base-size) * 2);
+            }
+            &&>* { /* ホバー時の処理 */
+                width: calc(var(--base-size) * 6);
+                border-radius: 15% / 50%;
+            }
+            && ~ .Menus { /* 文字が左から出てくる */
+                left: 0;
+            }
+        }
+        && .Menus:hover { /* 文字が左から出てくる */
+            left: 0;
+        }
+        &&>.Menus>.Choice:hover { /* 選択肢をホバーしたときのアニメーション */
+            padding-left: calc(var(--base-size) * 3);
+            &&>.Help {
+                transform: rotateZ(720deg);
+                &&::before {
+                    opacity: 0;
+                }
+                &&::after {
+                    background-image: url(../img/Help2.png);
+                    background-size: calc(var(--base-size) * 6);
+                }
+            }
+            &&>.Restart {
+                transform: rotate(360deg);
+            }
+            &&>.ToHome {
+                animation: Home_Quake 0.5s ease 0s;
+            }
+        }
+    }
+    :has(.Menus>.Choice:hover)>#hamburger:not(.Active)>* { /* 文字が左から出てくる */
+        width: calc(var(--base-size) * 6);
+        border-radius: 15% / 50%;
+    }
+}
+@keyframes Home_Quake { /* 家が揺れるアニメーション */
+    0%{}
+    12.5%{
+        transform: rotate(-20deg);
+    }
+    37.5%{
+        transform: rotate(20deg);
+    }
+    62.5%{
+        transform: rotate(-20deg);
+    }
+    87.5%{
+        transform: rotate(20deg);
+    }
+    100%{}
+}
+
+.Screen.Active { /* 画面遷移 */
+    --UI-color: rgba(105, 105, 105, 0.9);
+    --base-size: max(1vmin,5px);
+    --choice-cursor: "▷";
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(5px); /* 後ろにブラー */
+    z-index: 10;
+    font-size: calc(var(--base-size) * 5);
+    font-weight: bold;
+    && .Title { /* タイトル文字 */
+        position: absolute;
+        top: 15%;
+        font-size: calc(var(--base-size) * 10);
+    }
+    && .UI { /* 灰色背景のUI */
+        max-width: 80%;
+        &&>* {
+            padding: var(--base-size) calc(var(--base-size) * 2);
+        }
+        &&>:not(:first-child) { /* 要素の区切り */
+            border-top: calc(var(--base-size) * 0.5) solid white;
+        }
+        && .Supplement { /* ホバーで出現する補足 */
+            font-size: 0;
+            font-weight: normal;
+        }
+        && p { /* 内容 */
+            background-color: var(--UI-color);
+            color: white;
+        }
+        && .Choice { /* 選択肢 */
+            position: relative;
+            background-color: var(--UI-color);
+            cursor: pointer;
+            && p {
+                background-color: rgba(0,0,0,0);
+            }
+            &&:not(:hover) {
+                padding-right: calc(var(--base-size) * 6.8);
+            }
+            &&:hover{
+                && p:first-child::before { /* ▹が出現する */
+                    font-size: calc(var(--base-size) * 4);
+                    content: var(--choice-cursor);
+                    margin-right: calc(var(--base-size) * 0.8);
+                }
+                && .Supplement {
+                    font-size: calc(var(--base-size) * 2.5);
+                }
+            }
+            &&.Active{ /* クリックされたときの処理 */
+                && p:first-child::before { /* ▹の色が変わる */
+                    font-size: calc(var(--base-size) * 4);
+                    content: var(--choice-cursor);
+                    color: gold;
+                    margin-right: calc(var(--base-size) * 0.8);
+                }
+                && .Supplement {
+                    font-size: calc(var(--base-size) * 2.5);
+                }
+            }
+        }
+        &&#start { /* スタートボタン */
+            position: absolute;
+            bottom: 15%;
+            cursor: pointer;
+            &&>*:not(:hover) {
+                padding-right: calc(var(--base-size) * 4.4);
+                padding-left: calc(var(--base-size) * 4.4);
+            }
+            &&:hover{
+                && p:first-child::before {
+                    font-size: calc(var(--base-size) * 4);
+                    content: var(--choice-cursor);
+                    margin-right: calc(var(--base-size) * 0.8);
+                }
+            }
+        }
+    }
+}

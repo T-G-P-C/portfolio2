@@ -1,0 +1,167 @@
+/* 四川省のcss */
+/* 麻雀牌の大きさは4：3 */
+/* 背景をいい感じの画像にする */
+/* ハンバーガーを下にスライドすると下に移動できるようにしたい
+    flexの力でリバース、paddingやbox-shadowの上下逆転でうまいことする */
+
+@import url('https://fonts.googleapis.com/css2?family=Yuji+Boku&display=swap');
+
+html {
+    --back-color: mediumseagreen;
+    --drop-range: 0; /* 牌を消すとき横にどれだけ飛ぶか */
+}
+
+body {
+    background-color: var(--back-color);
+}
+
+.Title {
+    font-family: 'Yuji Boku', serif;
+}
+
+.Screen.Active {
+    && .Level {
+        width: calc(var(--base-size) * 50);
+    }
+    && .ZoomOut1 {
+        animation: Zoom_Out1 0.2s ease-in 0s;
+    }
+    && .ZoomOut2 {
+        opacity: 0;
+        animation: Zoom_Out2 0.2s ease-in 0.4s forwards;
+    }
+}
+
+@keyframes Zoom_Out1 {
+    0% {
+        font-size: calc(var(--base-size) * 20);
+        opacity: 0;
+    }
+    80% {
+        opacity: 1;
+    }
+}
+@keyframes Zoom_Out2 {
+    0% {
+        font-size: calc(var(--base-size) * 10);
+        opacity: 0;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.Background { /* 背景 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--back-color);
+    z-index: 1;
+}
+
+#gameArea { /* 雀卓 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: forestgreen;
+    
+    &&.Ver { /* 縦長の時の大きさ */
+        --tile-width: min(calc(100vw / (var(--group-count) + 2)), calc(100vh / (var(--line-count) + 2) * 3 / 4)); /* 画面にきれいに収まる最大サイズ */
+        --board-size: max(calc(var(--tile-width) * (var(--group-count) + 2)), calc(var(--tile-width)* 4 / 3 * (var(--line-count) + 2))); /* いい感じのゲーム盤のサイズ */
+        height: var(--board-size);
+        width: var(--board-size);
+        
+        &&>div { /* 各グループ */
+            display: flex;
+            flex-flow: column;
+        }
+        
+        && img {
+            width: var(--tile-width);
+            height: calc(var(--tile-width) * 4 / 3);
+        }
+    }
+    
+    &&:not(.Ver) { /* 横長の時の大きさ */
+        flex-flow: column;
+        --tile-width: min(calc(100vw / (var(--line-count) + 2)), calc(100vh / (var(--group-count) + 2) * 3 / 4)); /* 横の時はlineとgroupが入れ替わる */
+        --board-size: max(calc(var(--tile-width) * (var(--line-count) + 2)), calc(var(--tile-width)* 4 / 3 * (var(--group-count) + 2)));
+        height: var(--board-size);
+        width: var(--board-size);
+        
+        &&>div { /* 各グループ */
+            display: flex;
+            justify-content: center;
+        }
+        
+        && img {
+            width: var(--tile-width);
+            height: calc(var(--tile-width) * 4 / 3);
+        }
+    }
+
+    && img {
+        position: relative;
+        border-radius: 8% / 6% ;
+        cursor: pointer;
+        
+        text-align: center;
+        font-size: calc(var(--tile-width) / 2.5);
+        background-size: calc(var(--tile-width) * 4 / 3) var(--tile-width);
+        box-shadow: 0 calc(var(--tile-width) * 0.33) 0 calc(var(--tile-width) * -0.015) rgb(200, 200, 200),
+                    0 calc(var(--tile-width) * 0.48) 0 calc(var(--tile-width) * -0.015) peru,
+                    0 calc(var(--tile-width) * 0.48) 0 0 gray; /* 麻雀牌の下の部分 */
+        
+        &&.NoImage { /* 画像の表示がないときに使うクラス */
+            background-color: white;
+            &&::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                outline: calc(var(--tile-width) * 0.03) solid rgb(200, 200, 200);
+                outline-offset: calc(var(--tile-width) * -0.03);
+            }
+        }
+        
+        &&.Select {
+            outline: calc(var(--tile-width) * 0.1) solid cyan;
+            outline-offset: calc(var(--tile-width) * -0.1);
+            box-shadow: 0 calc(var(--tile-width) * 0.415) 0 calc(var(--tile-width) * -0.1) rgb(200, 200, 200),
+                        0 calc(var(--tile-width) * 0.48) 0 calc(var(--tile-width) * -0.1) peru,
+                        0 calc(var(--tile-width) * 0.48) 0 0 cyan; /* 麻雀牌の下の部分 */
+        }
+    
+        &&.DropTile {
+            z-index: -1;
+            animation: Drop_Tile ease-in 0.7s 0s;
+        }
+    }
+    
+    padding-bottom: calc(var(--tile-width) * 0.24); /* 牌の下の部分の分動かす */
+}
+
+@keyframes Drop_Tile {
+    0%{bottom: 0;left: 0;}
+    28%{bottom: calc(var(--tile-width) * 1.2);}
+    35%{bottom: calc(var(--tile-width) * 1.5);z-index: 1;}
+    40%{bottom: calc(var(--tile-width) * 1.5);}
+    50%{opacity: 1;}
+    100%{
+        bottom: calc(var(--tile-width) * -5);
+        left: calc(var(--tile-width) * var(--drop-range)); /* 飛距離 */
+        transform: rotateZ(calc(-180deg * var(--drop-range))); /* どれだけ回るか */
+        opacity: 0;
+        z-index: 1;
+    }
+}
