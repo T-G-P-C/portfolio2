@@ -214,18 +214,6 @@ function createDifficultyPage() {
         makeArrangedHard();
     }
 
-    /*const screen1Element = document.getElementById('screen1');
-    if (!screen1Element.classList.contains('Active')) {
-        screen1Element.classList.add('Active');
-        activeScreen1 = true;
-        if (document.getElementById('screen2').classList.contains('Active')) {
-            document.getElementById('screen2').classList.remove('Active');
-            activeScreen2 = false;
-        } else if (document.getElementById('screen3').classList.contains('Active')) {
-            document.getElementById('screen3').classList.remove('Active');
-            activeScreen3 = false;
-        }
-    }*/
     activeScreen1 = true;
     higherPage();
 }
@@ -255,18 +243,6 @@ function createClearPage() {
     clearElem.innerHTML = 'Restart';
     document.getElementById('start').appendChild(clearElem);
 
-    /*const screen1Element = document.getElementById('screen1');
-    if (!screen1Element.classList.contains('Active')) {
-        screen1Element.classList.add('Active');
-        activeScreen1 = true;
-        if (document.getElementById('screen2').classList.contains('Active')) {
-            document.getElementById('screen2').classList.remove('Active');
-            activeScreen2 = false;
-        } else if (document.getElementById('screen3').classList.contains('Active')) {
-            document.getElementById('screen3').classList.remove('Active');
-            activeScreen3 = false;
-        }
-    }*/
     activeScreen1 = true;
     higherPage();
 }
@@ -353,7 +329,7 @@ function makeArrangedHard() {
 //初回実行
 makeArrangedHard();
 
-//TODO Restart確認のページ作成
+//確認のページ
 function createCheckPage() {
     $('#screen3').empty();
 
@@ -382,23 +358,11 @@ function createCheckPage() {
     checkElem.innerHTML = '<p>いいえ</p>';
     document.getElementById('check').appendChild(checkElem);
 
-
-    /*document.getElementById('screen3').classList.add('Active');
-    activeScreen3 = true;
-    if (document.getElementById('screen2').classList.contains('Active')) {
-        document.getElementById('screen2').classList.remove('Active');
-    } else if (document.getElementById('screen1').classList.contains('Active')) {
-        document.getElementById('screen1').classList.remove('Active');
-    }*/
     activeScreen3 = true;
     higherPage();
 }
 
-//! とりあえず
-//TODO （screen2にonclick='backFromHelp()'付与したら消去）
-document.getElementById('screen2').setAttribute('onclick', 'backFromHelp()');
-
-//TODO helpページ作成
+//helpページ
 function createHelpPage() {
     $('#screen2').empty();
 
@@ -422,37 +386,6 @@ function createHelpPage() {
         </div>
     `;
 
-    //console.log(document.getElementById('screen2').innerHTML);
-
-    /*let helpElem = document.createElement('div');
-    helpElem.classList.add('UI');
-    helpElem.id = 'help1';
-    document.getElementById('screen2').appendChild(helpElem);
-
-    helpElem = document.createElement('p');
-    helpElem.innerHTML = 'ハンバーガーメニューは、上下にスワイプすることにより移動することができます。';
-    document.getElementById('help1').appendChild(helpElem);
-
-    helpElem = document.createElement('br');
-    document.getElementById('screen2').appendChild(helpElem);
-
-    helpElem = document.createElement('div');
-    helpElem.classList.add('UI');
-    helpElem.id = 'help2';
-    document.getElementById('screen2').appendChild(helpElem);
-
-    helpElem = document.createElement('p');
-    helpElem.innerHTML = '四川省は他の牌を跨がずに、直線を二度以内まで曲げた線で結べる牌同士を消していき、全ての牌を消すゲームです。';
-    document.getElementById('help2').appendChild(helpElem);*/
-
-    /*document.getElementById('screen2').classList.add('Active');
-    activeScreen2 = true;
-    if (document.getElementById('screen3').classList.contains('Active')) {
-        document.getElementById('screen3').classList.remove('Active');
-        activeScreen3 = false;
-    } else if (document.getElementById('screen1').classList.contains('Active')) {
-        document.getElementById('screen1').classList.remove('Active');
-    }*/
     activeScreen2 = true;
     activeScreen3 = false;
     higherPage();
@@ -483,7 +416,6 @@ updateAspectRatioClass();
 
 // ウィンドウのリサイズ時に縦横比を更新
 window.addEventListener('resize', updateAspectRatioClass);
-
 
 //引数と対応した麻雀のタイルを作り、それぞれのIDの場所に挿入するfunction
 function makeTile(i, j, value) {
@@ -1046,129 +978,58 @@ function clickStart() {
     }
 }
 
-//TODO Restart確認へのonclick遷移用
+//Restart,Home確認へのonclick遷移用
 function clickHamburgerMenu(value) {
 
     document.getElementById('hamburger').classList.remove('Active');
     choiceHamburgerMenu = value;
 
-    //onclickが付いているか確認
-    /*if (document.getElementById('screen1').getAttribute('onclick') == 'backFromHelp()') {
-        //onclickを外す
-        document.getElementById('screen1').removeAttribute('onclick');
-        onclickScreen1ForHamburgerMenuFlg = true;
-    } else {
-        onclickScreen1ForHamburgerMenuFlg = false;
-    }
-
-    //screen1にActiveクラスを付与
-    if (!document.getElementById('screen1').classList.contains('Active')) {
-        document.getElementById('screen1').classList.add('Active');
-        activeScreen1ForHamburgerMenuFlg = false;
-    } else {
-        activeScreen1ForHamburgerMenuFlg = true;
-        beforeHamburgerMenuElem = document.getElementById('screen1').children;
-    }*/
-
-    //TODO Restart確認ページ作成
+    //確認ページに遷移
     createCheckPage();
 }
 
-//TODO Restart確認からのYesのonclick
+//Restart確認からのYesのonclick
 function restart() {
     activeScreen3 = false;
     activeScreen2 = false;
     createDifficultyPage();
 }
 
-//TODO Restart確認からのNoのonclick
+//Restart確認からのNoのonclick
 function notRestart() {
-    //onclickを付与
-    /*if (onclickScreen1ForHamburgerMenuFlg) {
-        document.getElementById('screen2').setAttribute('onclick', 'backFromHelp()');
-        //screen2には常に'onclick', 'backFromHelp()'を付与する
-    }
-
-    //screen1からActiveクラスを削除
-    if (activeScreen1ForHamburgerMenuFlg) {
-        console.log(beforeHamburgerMenuElem);
-        document.getElementById('screen2').appendChild(beforeHamburgerMenuElem);
-    } else {
-        document.getElementById('screen2').classList.remove('Active');
-    }*/
     activeScreen3 = false;
     higherPage();
 }
 
-//TODO ToHome確認からのYesのonclick
+//ToHome確認からのYesのonclick
 function toHome() {
     //Home画面に戻る
 }
 
-//TODO ToHome確認からのNoのonclick
+//ToHome確認からのNoのonclick
 function notToHome() {
-
-    //onclickを付与
-    /*if (onclickScreen2ForHamburgerMenuFlg) {//?
-        document.getElementById('screen2').setAttribute('onclick', 'backFromHelp()');
-        //TODO screen2には常に'onclick', 'backFromHelp()'を付与する
-    }
-
-    //screen1からActiveクラスを削除
-    if (activeScreen1ForHamburgerMenuFlg) {
-        //TODO 外す
-        document.getElementById('screen1').appendChild(beforeHamburgerMenuElem);
-    } else {
-        document.getElementById('screen1').classList.remove('Active');
-    }*/
     activeScreen3 = false;
     higherPage();
 }
 
-//TODO helpページクリック時のonclick
+//helpページクリック時のonclick
 function clickHelp() {
     document.getElementById('hamburger').classList.remove('Active');
-    //let activeScreen1ForHelpFlg = false;        //screen1がActiveクラスを持っているかどうかのフラグ
-    //let beforeHelpElem = null;  //Help以前のページ保持用変数
-    /*if (!document.getElementById('screen2').classList.contains('Active')) {
-        document.getElementById('screen2').classList.add('Active');
-        activeScreen1ForHelpFlg = false;
-    } else {
-        activeScreen1ForHelpFlg = true;
-        beforeHelpElem = document.getElementById('screen1').children;
-        //TODO getElementById('screen1').childrenのやり直し　三層構造にする
-
-        //TODO ココ
-
-        //TODO ココ
-    }
-
-    //TODO helpページ作成
-    createHelpPage();
-
-    // screen1 に　onclick を付与
-    document.getElementById('screen2').setAttribute('onclick', 'backFromHelp()');*/
     if (activeScreen2 == true && activeScreen3 == false) {
         backFromHelp();
     } else {
-        //TODO helpページ作成
+        //helpページ作成
         createHelpPage();
     }
 }
 
-//TODO helpページからどこかを押した時の処理（helpページから戻る）
+//helpページからどこかを押した時の処理（helpページから戻る）
 function backFromHelp() {
-    //document.getElementById('screen1').removeAttribute('onclick');
-    /*if (activeScreen1ForHelpFlg) {
-        //document.getElementById('screen1').appendChild(beforeHelpElem);
-    } else {
-        document.getElementById('screen2').classList.remove('Active');
-    }*/
     activeScreen2 = false;
     higherPage();
 }
 
-//TODO helpページからRestart確認へ遷移した後の選択によってhelpメニューに戻るかRestartする場合はonclick外す
+//helpページからRestart確認へ遷移した後の選択によってhelpメニューに戻るかRestartする場合はonclick外す
 
 //img（牌）を押した時の処理
 function clickTile(thisElem) {
@@ -1207,5 +1068,3 @@ function clickTile(thisElem) {
         }
     }
 }
-
-
